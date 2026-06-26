@@ -38,7 +38,18 @@ class GameStar:
 
     def _create_constellation(self):
         star = Star(self)
-        self.stars.add(star)
+        star_width = star.rect.width
+        current_x = star_width 
+
+        while current_x < (self.setting.screen_width - 2 * star_width):
+            new_star = Star(self)
+            new_star.x = current_x
+            new_star.rect.x = current_x
+            self.stars.add(new_star)
+            current_x += 2 * star_width
+
+            
+        
 
 
 if __name__ == '__main__':
