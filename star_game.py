@@ -2,6 +2,7 @@ import pygame
 import sys
 from settings import Settings
 from star import Star
+from random import randint
 
 class GameStar:
     def __init__(self):
@@ -9,7 +10,7 @@ class GameStar:
         self.setting = Settings()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((self.setting.screen_width,
-                                               self.setting.screen_heigth,
+                                               self.setting.screen_height,
                                                ))
         pygame.display.set_caption("Star Game")
         self.stars = pygame.sprite.Group()
@@ -37,9 +38,14 @@ class GameStar:
     
     def _create_star(self, position_x, position_y):
         new_star = Star(self)
-        new_star.x = position_x
-        new_star.rect.x = position_x
-        new_star.rect.y = position_y
+
+        random_offset_x = randint(-30, 30)
+        random_offset_y = randint(-30, 30)
+
+        new_star.rect.x = position_x + random_offset_x
+        new_star.rect.y = position_y + random_offset_y
+
+        new_star.x = float(new_star.rect.x)
         self.stars.add(new_star)
 
     def _create_constellation(self):
@@ -47,7 +53,7 @@ class GameStar:
         star_width, star_height = star.rect.size
         current_x, current_y = star_width, star_height
 
-        while current_y < (self.setting.screen_heigth - 2 * star_height):
+        while current_y < (self.setting.screen_height - 2 * star_height):
 
             while current_x < (self.setting.screen_width - 2 * star_width):
                 self._create_star(current_x, current_y)
