@@ -34,23 +34,26 @@ class GameStar:
         self.screen.fill(self.setting.bg_color)
         self.stars.draw(self.screen)
         pygame.display.flip() 
-        
+    
+    def _create_star(self, position_x, position_y):
+        new_star = Star(self)
+        new_star.x = position_x
+        new_star.rect.x = position_x
+        new_star.rect.y = position_y
+        self.stars.add(new_star)
 
     def _create_constellation(self):
         star = Star(self)
-        star_width = star.rect.width
-        current_x = star_width 
+        star_width, star_height = star.rect.size
+        current_x, current_y = star_width, star_height
 
-        while current_x < (self.setting.screen_width - 2 * star_width):
-            new_star = Star(self)
-            new_star.x = current_x
-            new_star.rect.x = current_x
-            self.stars.add(new_star)
-            current_x += 2 * star_width
+        while current_y < (self.setting.screen_heigth - 2 * star_height):
 
-            
-        
-
+            while current_x < (self.setting.screen_width - 2 * star_width):
+                self._create_star(current_x, current_y)
+                current_x += 2 * star_width
+            current_x = star_width
+            current_y +=  2 * star_height
 
 if __name__ == '__main__':
     st = GameStar()
